@@ -14,7 +14,10 @@ $items = \App\Models\PostCategory::query()->where('parent_id', 0)->get();
                 @foreach($items as $item)
                     <div class="nested-sortable pl-2">
                         <div class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900">
-                            <div>{{ $item->name }}</div>
+                            <div class="flex">
+                                <div class="cursor-move"><x-heroicon-o-arrows-pointing-out class="text-gray-400 w-4 h-6" /></div>
+                                <div class="px-2">{{ $item->name }}</div>
+                            </div>
                             <div class="nested-sortable pt-4">
                                 @include('tree-page::list-group', ['items' => $item->children])
                             </div>
@@ -29,6 +32,7 @@ $items = \App\Models\PostCategory::query()->where('parent_id', 0)->get();
     <script>
         document.querySelectorAll('.nested-sortable').forEach((el) => {
             Sortable.create(el, {
+                handle: '.cursor-move',
                 group: 'nested',
                 animation: 150,
                 fallbackOnBody: true,
