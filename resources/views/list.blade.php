@@ -9,7 +9,7 @@ $items = \App\Models\PostCategory::query()->where('parent_id', 0)->get();
         <x-filament::grid class="gapx-4 py-2">
             <x-filament::grid.column>
                 <div class="nested-sortable pl-2">
-                    @include('tree-page::list-group', ['items' => $items])
+                    @include('tree-page::list-items', ['items' => $items])
                 </div>
             </x-filament::grid.column>
         </x-filament::grid>

@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="nested-sortable pt-4">
-            @include('tree-page::list-group', ['items' => $item->children])
+            @include('tree-page::list-items', ['items' => $item->children])
         </div>
     </div>
 @endforeach
