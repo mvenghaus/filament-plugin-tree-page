@@ -1,6 +1,6 @@
 
 @foreach($items as $item)
-    <div class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900">
+    <div data-item-id="{{ $item->id }}" class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900">
         <div class="flex gap-x-1">
             <div>
                 <div class="cursor-move select-none	flex justify-center items-center w-6 h-6 rounded-lg border border-gray-600 dark:border-white/50">
@@ -22,10 +22,10 @@
             </div>
 
             <div>
-                <div class="px-2">{{ $item->name }}</div>
+                <div class="px-2">{{ $item->name }} ({{ $item->id }})</div>
             </div>
         </div>
-        <div class="nested-sortable pt-4">
+        <div class="nested-sortable pt-6" data-item-parent-id="{{ $item->id }}">
             @include('tree-page::list-items', ['items' => $item->children])
         </div>
     </div>
