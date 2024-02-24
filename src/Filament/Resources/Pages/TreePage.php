@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Mvenghaus\TreePage\Filament\Resources\Pages;
 
 use App\Models\PostCategory;
+use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\Page;
-use Livewire\Attributes\On;
 
-class TreePage extends Page
+class TreePage extends ListRecords
 {
     protected static string $view = 'tree-page::list';
 
