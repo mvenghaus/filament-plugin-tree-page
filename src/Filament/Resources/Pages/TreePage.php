@@ -7,10 +7,9 @@ namespace Mvenghaus\TreePage\Filament\Resources\Pages;
 use App\Models\PostCategory;
 use Filament\Actions\Action;
 use Filament\Resources\Pages\Page;
+use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Mvenghaus\TreePage\Actions\TreeItemDeleteAction;
-use Mvenghaus\TreePage\Actions\TreeItemEditAction;
 
 class TreePage extends Page
 {
@@ -51,7 +50,9 @@ class TreePage extends Page
 
     public function treeItemEditAction(): Action
     {
-        return TreeItemEditAction::make('treeItemEdit')
+        return Action::make('treeItemEdit')
+            ->icon(FilamentIcon::resolve('actions::edit-action') ?? 'heroicon-m-pencil')
+            ->iconButton()
             ->record(fn(array $arguments) => $this->getModel()::findOrFail($arguments['id'] ?? 0))
             ->authorize(fn(Model $record): bool => $this->getResource()::canEdit($record))
             ->url(fn(Model $record): string => $this->getResource()::getUrl('edit', ['record' => $record]));
@@ -59,7 +60,10 @@ class TreePage extends Page
 
     public function treeItemDeleteAction(): Action
     {
-        return TreeItemDeleteAction::make('treeItemDelete')
+        return Action::make('treeItemDelete')
+            ->requiresConfirmation()
+            ->icon(FilamentIcon::resolve('actions::delete-action') ?? 'heroicon-m-trash')
+            ->iconButton()
             ->record(fn(array $arguments) => $this->getModel()::findOrFail($arguments['id'] ?? 0))
             ->authorize(fn(Model $record): bool => $this->getResource()::canDelete($record))
             ->action(function (Model $record) {
