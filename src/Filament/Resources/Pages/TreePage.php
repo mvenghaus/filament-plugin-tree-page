@@ -18,7 +18,7 @@ class TreePage extends Page
 
     public function getTreeItemLabel(Model $record): string
     {
-        return $record->name;
+        return $record->name . ' (' . $record->id . ')';
     }
 
     public function getItems(int $parentId = 0): Collection
@@ -32,7 +32,7 @@ class TreePage extends Page
     public function updateTreeSort(array $updates): void
     {
         foreach ($updates as $update) {
-            $postCategory = PostCategory::findOrFail($update['itemId']);
+            $postCategory = PostCategory::findOrFail($update['id']);
 
             $postCategory->update(['parent_id' => $update['parentId'], 'order' => $update['sort']]);
         }

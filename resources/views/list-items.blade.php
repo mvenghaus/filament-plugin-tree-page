@@ -1,11 +1,13 @@
 @foreach($items as $item)
     <div x-data="{ open: true }"
-         data-item-id="{{ $item->id }}"
+         x-sortable-item="{{ $item->id }}"
          class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900"
     >
         <div class="flex gap-x-1">
             <div>
-                <div class="cursor-move select-none	flex justify-center items-center w-6 h-6 rounded-lg border border-gray-300 dark:border-gray-600">
+                <div x-sortable-handle
+                     class="cursor-move select-none	flex justify-center items-center w-6 h-6 rounded-lg border border-gray-300 dark:border-gray-600"
+                >
                     <x-heroicon-o-arrows-pointing-out class="text-black dark:text-gray-400 w-3 h-3"/>
                 </div>
             </div>
@@ -31,10 +33,15 @@
         </div>
         <div x-show="open"
              x-cloak
-             class="x-cloak nested-sortable pt-6"
-             data-item-parent-id="{{ $item->id }}"
+             class="x-cloak pt-6"
         >
-            @include('tree-page::list-items', ['items' => $this->getItems($item->id)])
+            <div x-data="{}"
+                 x-sortable-nested
+                 x-sortable-list="{{ $item->id }}"
+                 x-sortable-group="default"
+            >
+                @include('tree-page::list-items', ['items' => $this->getItems($item->id)])
+            </div>
         </div>
     </div>
 @endforeach
