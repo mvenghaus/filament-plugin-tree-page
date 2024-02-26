@@ -6,7 +6,7 @@
          @tree-page:expand-all.window="open = true"
          @tree-page:collapse-all.window="open = false"
     >
-        <div class="flex gap-x-1">
+        <div class="flex gap-x-1 items-center">
             <div>
                 <div x-sortable-handle
                      class="cursor-move select-none	flex justify-center items-center w-6 h-6 rounded-lg border border-gray-300 dark:border-gray-600"
