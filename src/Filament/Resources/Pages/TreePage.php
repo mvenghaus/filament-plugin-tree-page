@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mvenghaus\TreePage\Filament\Resources\Pages;
 
 use App\Models\PostCategory;
-use Filament\Actions\Action;
 use Filament\Actions\Contracts\HasActions;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -64,14 +63,14 @@ class TreePage extends Page implements HasForms, HasActions
         }
 
         return $this->records = $this->getModel()::query()
-            ->orderBy('order')
+            ->orderBy($this->getTreeItemSortField())
             ->get();
     }
 
     public function getItems(int $parentId = 0): Collection
     {
         return $this->getRecords()
-            ->filter(fn(Model $record) => $record->getAttribute(static::$treeItemParentField) === $parentId);
+            ->filter(fn(Model $record) => $record->getAttribute($this->getTreeItemParentField()) === $parentId);
     }
 
     public function updateTreeSort(array $updates): void
@@ -98,7 +97,7 @@ class TreePage extends Page implements HasForms, HasActions
     protected function getTreeActions(): array
     {
         return [
-            ...($this->getResource()::hasPage('edit') ? [TreeItemDeleteAction::make()] : []),
+            ...($this->getResource()::hasPage('edit') ? [TreeItemEditAction::make()] : []),
             TreeItemDeleteAction::make(),
         ];
     }

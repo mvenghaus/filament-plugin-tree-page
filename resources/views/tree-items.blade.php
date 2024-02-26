@@ -41,7 +41,7 @@
                  x-sortable-list="{{ $item->id }}"
                  x-sortable-group="default"
             >
-                {{-- @include('tree-page::tree-items', ['items' => $this->getItems($item->id)])--}}
+                @include('tree-page::tree-items', ['items' => $this->getItems($item->id)])
             </div>
         </div>
     </div>
