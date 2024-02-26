@@ -31,6 +31,8 @@ class TreePage extends Page implements HasForms, HasActions
 
     protected ?Collection $records = null;
 
+    public array $openStates = [];
+
     public function getTreeItemIdField(): string
     {
         return static::$treeItemIdField;

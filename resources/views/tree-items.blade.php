@@ -1,7 +1,10 @@
 @foreach($items as $item)
-    <div x-data="{ open: true }"
+    <div x-data="{ open: {{ !empty($this->openStates[$item->id]) ? 'true' : 'false' }} }"
+         x-init="$watch('open', (value) => $wire.openStates[{{ $item->id}}] = value)"
          x-sortable-item="{{ $item->id }}"
          class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900"
+         @tree-page:expand-all.window="open = true"
+         @tree-page:collapse-all.window="open = false"
     >
         <div class="flex gap-x-1">
             <div>

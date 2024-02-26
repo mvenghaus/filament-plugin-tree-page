@@ -1,23 +1,30 @@
 <div>
-    <div>
-        <x-filament::page class="filament-tree-page"
-                          x-data="treePageList"
-                          @end="save($event)"
-        >
-            <x-filament::grid class="gapx-4 py-2">
-                <x-filament::grid.column>
-                    <div x-data="{}"
-                         x-sortable-nested
-                         x-sortable-list="0"
-                         x-sortable-group="default"
-                         class="pl-2"
-                    >
-                        @include('tree-page::tree-items', ['items' => $this->getItems()])
-                    </div>
-                </x-filament::grid.column>
-            </x-filament::grid>
-        </x-filament::page>
-    </div>
+    <x-filament::page class="filament-tree-page"
+                      x-data="treePageList"
+                      @end="save($event)"
+    >
+        <div class="filament-tree-actions">
+            <x-filament::button @click="$dispatch('tree-page:expand-all')">
+                Expand all
+            </x-filament::button>
+            <x-filament::button @click="$dispatch('tree-page:collapse-all')">
+                Collapse all
+            </x-filament::button>
+        </div>
+
+        <x-filament::grid class="gapx-4 py-2">
+            <x-filament::grid.column>
+                <div x-data="{}"
+                     x-sortable-nested
+                     x-sortable-list="0"
+                     x-sortable-group="default"
+                     class="pl-2"
+                >
+                    @include('tree-page::tree-items', ['items' => $this->getItems()])
+                </div>
+            </x-filament::grid.column>
+        </x-filament::grid>
+    </x-filament::page>
 
     @script
     <script>
