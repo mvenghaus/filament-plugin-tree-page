@@ -1,5 +1,5 @@
 @foreach($items as $item)
-    <div x-data="{ open: {{ !isset($this->openStates[$item->id]) ? (int)$this->getDefaultOpenState() : (int)$this->openStates[$item->id] }} }"
+    <div x-data="{ open: {{ isset($this->openStates[$item->id]) ? (int)$this->openStates[$item->id] : (int)$this->getDefaultOpenState() }} }"
          x-init="$watch('open', (value) => $wire.openStates[{{ $item->id}}] = value)"
          x-sortable-item="{{ $item->id }}"
          class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900"
