@@ -29,6 +29,8 @@ class TreePage extends Page implements HasForms, HasActions
     protected static string $treeItemParentField = 'parent_id';
     protected static string $treeItemSortField = 'sort';
 
+    protected static bool $defaultOpenState = true;
+
     protected ?Collection $records = null;
 
     public array $openStates = [];
@@ -56,6 +58,11 @@ class TreePage extends Page implements HasForms, HasActions
     public function getTreeItemLabel(Model $record): string
     {
         return (string) $record->getAttribute($this->getTreeItemLabelField());
+    }
+
+    public function getDefaultOpenState(): bool
+    {
+        return static::$defaultOpenState;
     }
 
     public function getRecords(): ?Collection
