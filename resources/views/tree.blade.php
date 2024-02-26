@@ -12,7 +12,7 @@
                          x-sortable-group="default"
                          class="pl-2"
                     >
-                        @include('tree-page::list-items', ['items' => $this->getItems()])
+                        @include('tree-page::tree-items', ['items' => $this->getItems()])
                     </div>
                 </x-filament::grid.column>
             </x-filament::grid>

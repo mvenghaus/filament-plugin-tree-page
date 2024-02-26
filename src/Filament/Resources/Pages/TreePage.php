@@ -6,26 +6,72 @@ namespace Mvenghaus\TreePage\Filament\Resources\Pages;
 
 use App\Models\PostCategory;
 use Filament\Actions\Action;
+use Filament\Actions\Contracts\HasActions;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
-use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Mvenghaus\TreePage\Actions\TreeItemCreateAction;
+use Mvenghaus\TreePage\Actions\TreeItemDeleteAction;
+use Mvenghaus\TreePage\Actions\TreeItemEditAction;
+use Mvenghaus\TreePage\Concerns\InteractsWithTreeActions;
 
-class TreePage extends Page
+class TreePage extends Page implements HasForms, HasActions
 {
-    protected static string $view = 'tree-page::list';
+    use InteractsWithTreeActions;
+    use InteractsWithForms;
+
+    protected static string $view = 'tree-page::tree';
+
+    protected static string $treeItemIdField = 'id';
+    protected static string $treeItemLabelField = 'name';
+    protected static string $treeItemParentField = 'parent_id';
+    protected static string $treeItemSortField = 'sort';
+
+    protected ?Collection $records = null;
+
+    public function getTreeItemIdField(): string
+    {
+        return static::$treeItemIdField;
+    }
+
+    public function getTreeItemLabelField(): string
+    {
+        return static::$treeItemLabelField;
+    }
+
+    public function getTreeItemParentField(): string
+    {
+        return static::$treeItemParentField;
+    }
+
+    public function getTreeItemSortField(): string
+    {
+        return static::$treeItemSortField;
+    }
 
     public function getTreeItemLabel(Model $record): string
     {
-        return $record->name . ' (' . $record->id . ')';
+        return (string) $record->getAttribute($this->getTreeItemLabelField());
+    }
+
+    public function getRecords(): ?Collection
+    {
+        if ($this->records !== null) {
+            return $this->records;
+        }
+
+        return $this->records = $this->getModel()::query()
+            ->orderBy('order')
+            ->get();
     }
 
     public function getItems(int $parentId = 0): Collection
     {
-        return $this->getModel()::query()
-            ->where('parent_id', $parentId)
-            ->orderBy('order')
-            ->get();
+        return $this->getRecords()
+            ->filter(fn(Model $record) => $record->getAttribute(static::$treeItemParentField) === $parentId);
     }
 
     public function updateTreeSort(array $updates): void
@@ -35,40 +81,25 @@ class TreePage extends Page
 
             $postCategory->update(['parent_id' => $update['parentId'], 'order' => $update['sort']]);
         }
+
+        Notification::make()
+            ->title(__('filament-actions::edit.single.notifications.saved.title'))
+            ->success()
+            ->send();
     }
+
     protected function getHeaderActions(): array
     {
-        if ($this->getResource()::hasPage('create')) {
-            return [
-                Action::make('create')
-                    ->url(fn(): string => $this->getResource()::getUrl('create'))
-            ];
-        }
-
-        return [];
+        return [
+            ...($this->getResource()::hasPage('create') ? [TreeItemCreateAction::make()] : []),
+        ];
     }
 
-    public function treeItemEditAction(): Action
+    protected function getTreeActions(): array
     {
-        return Action::make('treeItemEdit')
-            ->icon(FilamentIcon::resolve('actions::edit-action') ?? 'heroicon-m-pencil')
-            ->iconButton()
-            ->record(fn(array $arguments) => $this->getModel()::findOrFail($arguments['id'] ?? 0))
-            ->authorize(fn(Model $record): bool => $this->getResource()::canEdit($record))
-            ->url(fn(Model $record): string => $this->getResource()::getUrl('edit', ['record' => $record]));
-    }
-
-    public function treeItemDeleteAction(): Action
-    {
-        return Action::make('treeItemDelete')
-            ->requiresConfirmation()
-            ->icon(FilamentIcon::resolve('actions::delete-action') ?? 'heroicon-m-trash')
-            ->iconButton()
-            ->record(fn(array $arguments) => $this->getModel()::findOrFail($arguments['id'] ?? 0))
-            ->authorize(fn(Model $record): bool => $this->getResource()::canDelete($record))
-            ->action(function (Model $record) {
-                $this->failure();
-            });
-
+        return [
+            ...($this->getResource()::hasPage('edit') ? [TreeItemDeleteAction::make()] : []),
+            TreeItemDeleteAction::make(),
+        ];
     }
 }

@@ -25,8 +25,9 @@
             <div class="flex-grow text-right">
                 <div class="px-2">
                     <div class="flex justify-end gap-3">
-                        {{ ($this->treeItemEditAction->record($item))(['id' => $item->id]) }}
-                        {{ ($this->treeItemDeleteAction->record($item))(['id' => $item->id]) }}
+                        @foreach($this->getCachedTreeActions() as $action)
+                            {{ ($action->record($item))(['id' => $item->id]) }}
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -40,7 +41,7 @@
                  x-sortable-list="{{ $item->id }}"
                  x-sortable-group="default"
             >
-                @include('tree-page::list-items', ['items' => $this->getItems($item->id)])
+                {{-- @include('tree-page::tree-items', ['items' => $this->getItems($item->id)])--}}
             </div>
         </div>
     </div>
