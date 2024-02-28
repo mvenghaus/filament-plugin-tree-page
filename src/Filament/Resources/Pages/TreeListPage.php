@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage\Filament\Resources\Pages;
+namespace Mvenghaus\TreeListPage\Filament\Resources\Pages;
 
 use App\Models\PostCategory;
 use Filament\Actions\Contracts\HasActions;
@@ -12,17 +12,17 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Mvenghaus\TreePage\Actions\TreeItemCreateAction;
-use Mvenghaus\TreePage\Actions\TreeItemDeleteAction;
-use Mvenghaus\TreePage\Actions\TreeItemEditAction;
-use Mvenghaus\TreePage\Concerns\InteractsWithTreeActions;
+use Mvenghaus\TreeListPage\Actions\TreeItemCreateAction;
+use Mvenghaus\TreeListPage\Actions\TreeItemDeleteAction;
+use Mvenghaus\TreeListPage\Actions\TreeItemEditAction;
+use Mvenghaus\TreeListPage\Concerns\InteractsWithTreeActions;
 
-class TreePage extends Page implements HasForms, HasActions
+class TreeListPage extends Page implements HasForms, HasActions
 {
     use InteractsWithTreeActions;
     use InteractsWithForms;
 
-    protected static string $view = 'tree-page::tree';
+    protected static string $view = 'tree-list-page::tree-list';
 
     protected static string $treeItemLabelField = 'name';
     protected static string $treeItemParentField = 'parent_id';

@@ -1,10 +1,14 @@
 {
-  "name": "mvenghaus/filament-plugin-tree-page",
-  "description": "Filament Plugin to handle sortable nested tree models.",
+  "name": "mvenghaus/filament-plugin-tree-list-page",
+  "description": "Lightweight and easy to setup tree list page for Filament ",
   "keywords": [
     "mvenghaus",
     "laravel",
-    "filament"
+    "filament",
+    "tree",
+    "nested",
+    "sort",
+    "sortable"
   ],
   "license": "MIT",
   "authors": [
@@ -20,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Mvenghaus\\TreePage\\": "src/"
+      "Mvenghaus\\TreeListPage\\": "src/"
     }
   },
   "config": {
@@ -29,7 +33,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Mvenghaus\\TreePage\\TreePageServiceProvider"
+        "Mvenghaus\\TreeListPage\\ServiceProvider"
       ]
     }
   },

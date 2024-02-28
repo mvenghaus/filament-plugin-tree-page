@@ -7,7 +7,7 @@ namespace Mvenghaus\TreeListPage;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class TreeListPageServiceProvider extends PackageServiceProvider
+class ServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'tree-list-page';
 

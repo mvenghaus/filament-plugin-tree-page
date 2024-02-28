@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage\Services;
+namespace Mvenghaus\TreeListPage\Services;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

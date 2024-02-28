@@ -8,7 +8,7 @@ use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
-use Mvenghaus\TreePage\Services\TreeItemService;
+use Mvenghaus\TreeListPage\Services\TreeItemService;
 
 class TreeItemDeleteAction extends Action
 {

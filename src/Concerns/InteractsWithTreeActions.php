@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage\Concerns;
+namespace Mvenghaus\TreeListPage\Concerns;
 
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
