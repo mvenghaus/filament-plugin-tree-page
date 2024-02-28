@@ -3,27 +3,40 @@
                       x-data="treePageList"
                       @end="save($event)"
     >
-        <div class="filament-tree-actions">
-            <x-filament::button @click="$dispatch('tree-page:expand-all')">
-                Expand all
-            </x-filament::button>
-            <x-filament::button @click="$dispatch('tree-page:collapse-all')">
-                Collapse all
-            </x-filament::button>
-        </div>
+        @if($this->getItems()->count())
+            <div class="filament-tree-page-actions">
+                <x-filament::button @click="$dispatch('tree-page:expand-all')">
+                    Expand all
+                </x-filament::button>
+                <x-filament::button @click="$dispatch('tree-page:collapse-all')">
+                    Collapse all
+                </x-filament::button>
+            </div>
 
-        <x-filament::grid class="gapx-4 py-2">
-            <x-filament::grid.column>
-                <div x-data="{}"
-                     x-sortable-nested
-                     x-sortable-list="0"
-                     x-sortable-group="default"
-                     class="pl-2"
-                >
-                    @include('tree-page::tree-items', ['items' => $this->getItems()])
+            <x-filament::grid class="gapx-4 py-2">
+                <x-filament::grid.column>
+                    <div x-data="{}"
+                         x-sortable-nested
+                         x-sortable-list="0"
+                         x-sortable-group="default"
+                         class="pl-2"
+                    >
+                        @include('tree-page::tree-items', ['items' => $this->getItems()])
+                    </div>
+                </x-filament::grid.column>
+            </x-filament::grid>
+        @else
+            <div class="filament-tree-page-empty px-6 py-12">
+                <div class="mx-auto grid max-w-lg justify-items-center text-center">
+                    <div class="mb-4 rounded-full bg-gray-100 p-3 dark:bg-gray-500/20">
+                        <x-heroicon-s-x-mark class="h-6 w-6 text-gray-500 dark:text-gray-400" />
+                    </div>
+                    <h4 class="text-base font-semibold leading-6 text-gray-950 dark:text-white">
+                        Keine Datensätze gefunden
+                    </h4>
                 </div>
-            </x-filament::grid.column>
-        </x-filament::grid>
+            </div>
+        @endif
     </x-filament::page>
 
     @script

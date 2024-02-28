@@ -19,15 +19,10 @@ class TreeItemCreateAction extends Action
         parent::setUp();
 
         $this
-            ->authorize(
-                fn(): bool => $this->getLivewire()->getResource()::canCreate()
-            )
+            ->label(__('tree-page::translations.actions.create.label'))
+            ->authorize(fn(): bool => $this->getLivewire()->getResource()::canCreate())
             ->icon(FilamentIcon::resolve('actions::create-action') ?? 'heroicon-m-plus')
-            ->url(
-                fn(Action $action): string => $action->getLivewire()
-                    ->getResource()::getUrl('create')
-            );
+            ->url(fn(Action $action): string => $action->getLivewire()->getResource()::getUrl('create'));
 
     }
-
 }

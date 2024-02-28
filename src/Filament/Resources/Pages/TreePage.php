@@ -27,7 +27,7 @@ class TreePage extends Page implements HasForms, HasActions
     protected static string $treeItemIdField = 'id';
     protected static string $treeItemLabelField = 'name';
     protected static string $treeItemParentField = 'parent_id';
-    protected static string $treeItemSortField = 'sort';
+    protected static string $treeItemSortField = 'ssort';
 
     protected static bool $defaultOpenState = true;
 

@@ -24,9 +24,7 @@ class TreeItemDeleteAction extends Action
 
         $this
             ->requiresConfirmation()
-            ->authorize(
-                fn(Model $record): bool => $this->getLivewire()->getResource()::canDelete($record)
-            )
+            ->authorize(fn(Model $record): bool => $this->getLivewire()->getResource()::canDelete($record))
             ->icon(FilamentIcon::resolve('actions::delete-action') ?? 'heroicon-m-trash')
             ->iconButton()
             ->successNotificationTitle(__('filament-actions::delete.single.notifications.deleted.title'))

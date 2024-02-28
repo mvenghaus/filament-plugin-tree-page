@@ -20,14 +20,11 @@ class TreeItemEditAction extends Action
         parent::setUp();
 
         $this
-            ->authorize(
-                fn(Model $record): bool => $this->getLivewire()->getResource()::canEdit($record)
-            )
+            ->authorize(fn(Model $record): bool => $this->getLivewire()->getResource()::canEdit($record))
             ->icon(FilamentIcon::resolve('actions::edit-action') ?? 'heroicon-m-pencil')
             ->iconButton()
             ->url(
-                fn(Model $record): string => $this->getLivewire()
-                    ->getResource()::getUrl('edit', ['record' => $record])
+                fn(Model $record): string => $this->getLivewire()->getResource()::getUrl('edit', ['record' => $record])
             );
     }
 
