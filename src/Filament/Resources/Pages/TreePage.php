@@ -24,21 +24,15 @@ class TreePage extends Page implements HasForms, HasActions
 
     protected static string $view = 'tree-page::tree';
 
-    protected static string $treeItemIdField = 'id';
     protected static string $treeItemLabelField = 'name';
     protected static string $treeItemParentField = 'parent_id';
-    protected static string $treeItemSortField = 'ssort';
+    protected static string $treeItemSortField = 'order';
 
     protected static bool $defaultOpenState = true;
 
     protected ?Collection $records = null;
 
     public array $openStates = [];
-
-    public function getTreeItemIdField(): string
-    {
-        return static::$treeItemIdField;
-    }
 
     public function getTreeItemLabelField(): string
     {
@@ -87,11 +81,14 @@ class TreePage extends Page implements HasForms, HasActions
         foreach ($updates as $update) {
             $postCategory = PostCategory::findOrFail($update['id']);
 
-            $postCategory->update(['parent_id' => $update['parentId'], 'order' => $update['sort']]);
+            $postCategory->update([
+                $this->getTreeItemParentField() => $update['parentId'],
+                $this->getTreeItemSortField() => $update['sort']
+            ]);
         }
 
         Notification::make()
-            ->title(__('filament-actions::edit.single.notifications.saved.title'))
+            ->title(__('tree-page::translations.messages.saved'))
             ->success()
             ->send();
     }
@@ -107,7 +104,7 @@ class TreePage extends Page implements HasForms, HasActions
     {
         return [
             ...($this->getResource()::hasPage('edit') ? [TreeItemEditAction::make()] : []),
-            TreeItemDeleteAction::make(),
+            ...($this->getResource()::canDeleteAny() ? [TreeItemDeleteAction::make()] : [])
         ];
     }
 }

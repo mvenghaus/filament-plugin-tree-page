@@ -1,10 +1,10 @@
 @foreach($items as $item)
-    <div x-data="{ open: {{ isset($this->openStates[$item->id]) ? (int)$this->openStates[$item->id] : (int)$this->getDefaultOpenState() }} }"
-         x-init="$watch('open', (value) => $wire.openStates[{{ $item->id}}] = value)"
-         x-sortable-item="{{ $item->id }}"
+    <div x-data="{ open: {{ isset($this->openStates[$item->getKey()]) ? (int)$this->openStates[$item->getKey()] : (int)$this->getDefaultOpenState() }} }"
+         x-init="$watch('open', (value) => $wire.openStates[{{ $item->getKey()}}] = value)"
+         x-sortable-item="{{ $item->getKey() }}"
+         @tree-list-page:expand-all.window="open = true"
+         @tree-list-page:collapse-all.window="open = false"
          class="rounded-lg border px-4 py-2 mb-2 w-full border-gray-300 bg-white dark:border-white/10 dark:bg-gray-900"
-         @tree-page:expand-all.window="open = true"
-         @tree-page:collapse-all.window="open = false"
     >
         <div class="flex gap-x-1 items-center">
             <div>
@@ -29,7 +29,7 @@
                 <div class="px-2">
                     <div class="flex justify-end gap-3">
                         @foreach($this->getCachedTreeActions() as $action)
-                            {{ ($action->record($item))(['id' => $item->id]) }}
+                            {{ ($action->record($item))(['id' => $item->getKey()]) }}
                         @endforeach
                     </div>
                 </div>
@@ -41,10 +41,10 @@
         >
             <div x-data="{}"
                  x-sortable-nested
-                 x-sortable-list="{{ $item->id }}"
+                 x-sortable-list="{{ $item->getKey() }}"
                  x-sortable-group="default"
             >
-                @include('tree-page::tree-items', ['items' => $this->getItems($item->id)])
+                @include('tree-list-page::tree-list-items', ['items' => $this->getItems($item->getKey())])
             </div>
         </div>
     </div>

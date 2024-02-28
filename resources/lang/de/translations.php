@@ -7,6 +7,8 @@ return [
         ]
     ],
     'messages' => [
-        'empty_results' => ''
+        'saved' => 'Gespeichert',
+        'deleted' => 'Gelöscht',
+        'empty_results' => 'Keine Datensätze gefunden'
     ]
 ];

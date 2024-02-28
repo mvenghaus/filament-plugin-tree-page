@@ -1,14 +1,14 @@
 <div>
-    <x-filament::page class="filament-tree-page"
-                      x-data="treePageList"
+    <x-filament::page class="filament-tree-list-page"
+                      x-data="treeListPage"
                       @end="save($event)"
     >
         @if($this->getItems()->count())
-            <div class="filament-tree-page-actions">
-                <x-filament::button @click="$dispatch('tree-page:expand-all')">
+            <div class="filament-tree-list-page-actions">
+                <x-filament::button @click="$dispatch('tree-list-page:expand-all')">
                     Expand all
                 </x-filament::button>
-                <x-filament::button @click="$dispatch('tree-page:collapse-all')">
+                <x-filament::button @click="$dispatch('tree-list-page:collapse-all')">
                     Collapse all
                 </x-filament::button>
             </div>
@@ -21,12 +21,12 @@
                          x-sortable-group="default"
                          class="pl-2"
                     >
-                        @include('tree-page::tree-items', ['items' => $this->getItems()])
+                        @include('tree-list-page::tree-list-items', ['items' => $this->getItems()])
                     </div>
                 </x-filament::grid.column>
             </x-filament::grid>
         @else
-            <div class="filament-tree-page-empty px-6 py-12">
+            <div class="filament-tree-list-page-empty px-6 py-12">
                 <div class="mx-auto grid max-w-lg justify-items-center text-center">
                     <div class="mb-4 rounded-full bg-gray-100 p-3 dark:bg-gray-500/20">
                         <x-heroicon-s-x-mark class="h-6 w-6 text-gray-500 dark:text-gray-400" />
@@ -58,7 +58,7 @@
             });
         });
 
-        Alpine.data('treePageList', () => {
+        Alpine.data('treeListPage', () => {
             return {
                 save(evt) {
                     const updates = [];

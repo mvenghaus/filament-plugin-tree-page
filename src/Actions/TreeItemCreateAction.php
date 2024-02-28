@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage\Actions;
+namespace Mvenghaus\TreeListPage\Actions;
 
 use Filament\Actions\Action;
-use Filament\Support\Facades\FilamentIcon;
 
 class TreeItemCreateAction extends Action
 {
@@ -19,9 +18,9 @@ class TreeItemCreateAction extends Action
         parent::setUp();
 
         $this
-            ->label(__('tree-page::translations.actions.create.label'))
+            ->label(__('tree-list-page::translations.actions.create.label'))
             ->authorize(fn(): bool => $this->getLivewire()->getResource()::canCreate())
-            ->icon(FilamentIcon::resolve('actions::create-action') ?? 'heroicon-m-plus')
+            ->icon('heroicon-m-plus')
             ->url(fn(Action $action): string => $action->getLivewire()->getResource()::getUrl('create'));
 
     }

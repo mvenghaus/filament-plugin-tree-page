@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage\Actions;
+namespace Mvenghaus\TreeListPage\Actions;
 
 use Filament\Actions\Action;
 use Filament\Support\Facades\FilamentIcon;

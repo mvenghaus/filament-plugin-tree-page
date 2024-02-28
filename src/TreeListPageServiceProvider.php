@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage;
+namespace Mvenghaus\TreeListPage;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class TreePageServiceProvider extends PackageServiceProvider
+class TreeListPageServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'tree-page';
+    public static string $name = 'tree-list-page';
 
-    public static string $viewNamespace = 'tree-page';
+    public static string $viewNamespace = 'tree-list-page';
 
     public function configurePackage(Package $package): void
     {

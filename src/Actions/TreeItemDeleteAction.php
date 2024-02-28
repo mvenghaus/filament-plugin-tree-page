@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Mvenghaus\TreePage\Actions;
+namespace Mvenghaus\TreeListPage\Actions;
 
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\CanCustomizeProcess;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Database\Eloquent\Model;
+use Mvenghaus\TreePage\Services\TreeItemService;
 
 class TreeItemDeleteAction extends Action
 {
@@ -27,25 +28,21 @@ class TreeItemDeleteAction extends Action
             ->authorize(fn(Model $record): bool => $this->getLivewire()->getResource()::canDelete($record))
             ->icon(FilamentIcon::resolve('actions::delete-action') ?? 'heroicon-m-trash')
             ->iconButton()
-            ->successNotificationTitle(__('filament-actions::delete.single.notifications.deleted.title'))
+            ->successNotificationTitle(__('tree-page::translations.messaged.deleted'))
             ->action(function () {
                 $this->process(function (Model $record) {
                     $livewire = $this->getLivewire();
 
-                    $ids = collect();
-                    $idsRecursive = function (int $parentId) use (&$idsRecursive, $livewire, $ids) {
-                        $ids->push($parentId);
+                    $treeItemService = TreeItemService::make(
+                        $livewire::$resource,
+                        $livewire->getTreeItemParentField(),
+                        $livewire->getTreeItemSortField()
+                    );
 
-                        $livewire->getItems($parentId)
-                            ->map(fn(Model $record): int => $record->getAttribute($livewire->getTreeItemIdField()))
-                            ->each(fn(int $id) => $idsRecursive($id));
-                    };
-
-                    $idsRecursive($record->getAttribute($livewire->getTreeItemIdField()));
-
-                    $record::query()
-                        ->whereIn($livewire->getTreeItemIdField(), $ids)
+                    $treeItemService->getByParentKey($record->getKey())
                         ->each(fn(Model $record) => $record->delete());
+
+                    $record->delete();
                 });
 
                 $this->success();
