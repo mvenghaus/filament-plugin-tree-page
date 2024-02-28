@@ -49,7 +49,7 @@ class TreeItemService
         return $items;
     }
 
-    public function getPathsByParentKey(int $startParentKey = 0): Collection
+    public function getPathsByParentKey(int $startParentKey): Collection
     {
         return $this->getByParentKey($startParentKey)
             ->map(fn(Model $item) => $this->getPathItems($item));
@@ -57,7 +57,7 @@ class TreeItemService
 
     public function getPaths(): Collection
     {
-        return $this->getPathsByParentKey();
+        return $this->getPathsByParentKey(0);
     }
 
     private function walkItems(Collection $results, int $parentKey = 0): void
